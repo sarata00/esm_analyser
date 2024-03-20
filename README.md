@@ -1,6 +1,6 @@
 # ESM-2 embedding analysis
 
-This Python tool allows you to perform two different analyses of the last hidden state from ESM-2 model results: Correlation and DimensionalityReduction. To run it you just need to define a `config.json` that contains all the necessary parameters.
+This pipeline implemented in Python allows you to perform two different analyses of the last hidden state from ESM-2 model results: Correlation and DimensionalityReduction. To run it you just need to define a `config.json` that contains all the necessary parameters.
 
 
 ![texto](figures/pipeline_figure.png)
@@ -11,7 +11,9 @@ This Python tool allows you to perform two different analyses of the last hidden
 
 1.1. Clone the repository
 
-        git clone https://github.com/sarata00/esm_analyzer.git
+```bash
+git clone https://github.com/sarata00/esm_analyzer.git
+```       
 
 1.2. Create a conda environment and install all the dependencies
 
@@ -23,7 +25,7 @@ This Python tool allows you to perform two different analyses of the last hidden
 | \-v, \-\-verbose    | Shows messages to follow the process execution. Default: True              | boolean |
 
 ### 2.1. What is inside *config* file?
-This file contains all the variables used in our analyses. There are common arguments in both:
+This file contains all the variables used in our analyses. There are common arguments in both type of analysis:
 
 | Arguments | Description                                                           
 | ------------------- | -------------------------------------------------------------------------- | 
@@ -46,6 +48,10 @@ Finally, for the **Dimensionality reduction** analysis we have just one argument
 | ------------------- | -------------------------------------------------------------------------- | 
 | method      | Kind of dimensionality reduction approach: UMAP, PCA or MyMDS |
 
+Take into account that in the `data` folder there is no tensor file, due to storage limits. So, you will need to create it using `tensor_generators` functions. 
+
+Let me give you an example!
+
 
 ## 3. Example
 
@@ -63,11 +69,14 @@ python tensor_generators/tensor_generator_hugging_face -i mutant_library.fasta -
 
 The following step is the analysis of the results. This embeddings (normalized or not) can be processed and analyse using `anlysis` module. Finally, results are stored in `results` folder.
 
+> Notice that the "path/to/output" has to be the same path than the "path_to_tensor" in the json file!
+
+
 
 ### Correlation analysis
 In the repository folder:
 ```bash
-python scripts/analysis -c config.json
+python scripts/analysis -c config/config_corr_1.json
 ```
 As a result, we obtain two dataframes: 
 - df_correlation: where we will find the correlation analysis between the experimental data ("fitness" column) and the processed model data (according to the type of analysis - global or positional- and distance - euclidean or cosine.)
