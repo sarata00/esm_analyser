@@ -1,0 +1,17 @@
+{   
+    "inputs": {   
+        "path_to_tensor":"./data/last_hidden_esm2_t36_3B_UR50D.pth",
+        "mutated_sequence": "TYVQALFDFDPQEDGELGFRRGDFIHVMDNSDPNWWKGACHGQTGMFPRNYVTPVN",
+        "should_preprocess": true
+    },    
+    "process":{
+        
+        "Dimensionality_reduction":{
+            "inputs":{
+                "method": "UMAP"
+            }
+        }
+    },
+
+    "output_path":"./results"
+}

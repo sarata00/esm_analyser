@@ -1,0 +1,21 @@
+{   
+    "inputs": {   
+        "path_to_tensor":"./data/last_hidden_esm2_t36_3B_UR50D.pth",
+        "mutated_sequence": "TYVQALFDFDPQEDGELGFRRGDFIHVMDNSDPNWWKGACHGQTGMFPRNYVTPVN",
+        "should_preprocess": true
+    },    
+    "process":{
+        
+        "Correlation":{
+            "inputs":{
+                "experimental_data": "./data/df_binding_curated.csv",
+                "analysis": ["global", "positional"],
+                "distance": ["euclidean", "cosine"]
+            }
+        }
+    },
+
+    "output_path":"./results"
+}
+
+
