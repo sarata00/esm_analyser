@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Author: Sara Tolosa Alarcón
+
 
 import argparse
 import json
