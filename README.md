@@ -59,15 +59,15 @@ The first step is to generate the embedding tensors. For that, you can use both 
 
 ```bash 
 # Using ESM-2 modules
-python tensor_generators/tensor_generator_esm2 -i mutant_library.pkl -m "esm2_t36_3B_UR50D" -o "path/to/output" -norm True
+python tensor_generators/tensor_generator_esm2 -i mutant_library.fasta -m "esm2_t36_3B_UR50D" -o path/to/output -norm True
         # - norm = True in case you want to normalize the embedding dimensions
 
 # Using HuggingFace modules
-python tensor_generators/tensor_generator_hugging_face -i mutant_library.fasta -m "facebook/esm2_t36_3B_UR50D" -o "path/to/output"
+python tensor_generators/tensor_generator_hugging_face -i mutant_library.fasta -m "facebook/esm2_t36_3B_UR50D" -o path/to/output
 
 ```
 
-The following step is the analysis of the results. This embeddings (normalized or not) can be processed and analyse using `anlysis` module. Finally, results are stored in `results` folder.
+The following step is the analysis of the results. This embeddings (normalized or not) can be processed and analyzed by using `anlysis` module. Finally, results are stored in `results` folder.
 
 > Notice that the "path/to/output" has to be the same path than the "path_to_tensor" in the json file!
 
