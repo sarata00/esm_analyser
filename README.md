@@ -48,22 +48,22 @@ Finally, for the **Dimensionality reduction** analysis we have just one argument
 | ------------------- | -------------------------------------------------------------------------- | 
 | method      | Kind of dimensionality reduction approach: UMAP, PCA or MyMDS |
 
-Take into account that in the `data` folder there is no tensor file, due to storage limits. So, you will need to create it using `tensor_generators` functions. 
+Take into account that in the `data` folder there is no tensor file, due to storage limits. So, you will need to create it using `embedding_generators` functions. 
 
 Let me give you an example!
 
 
 ## 3. Example
 
-The first step is to generate the embedding tensors. For that, you can use both scripts: `tensor_generators/tensor_generator_esm2` and `tensor_generators/tensor_generator_hugging_face` depending if you want to use ESM-2 or HugginFace configuration, respectively. 
+The first step is to generate the embedding tensors. For that, you can use both scripts: `embedding_generators/embedding_generator_esm2` and `embedding_generators/tensor_generator_hugging_face` depending if you want to use ESM-2 or HugginFace configuration, respectively. 
 
 ```bash 
 # Using ESM-2 modules
-python tensor_generators/tensor_generator_esm2 -i mutant_library.fasta -m "esm2_t36_3B_UR50D" -o path/to/output -norm True
+python embedding_generators/embedding_generator_esm2 -i mutant_library.fasta -m "esm2_t36_3B_UR50D" -o path/to/output -norm True
         # - norm = True in case you want to normalize the embedding dimensions
 
 # Using HuggingFace modules
-python tensor_generators/tensor_generator_hugging_face -i mutant_library.fasta -m "facebook/esm2_t36_3B_UR50D" -o path/to/output
+python embedding_generators/tensor_generator_hugging_face -i mutant_library.fasta -m "facebook/esm2_t36_3B_UR50D" -o path/to/output
 
 ```
 
@@ -93,5 +93,5 @@ As a result, we will obtain a figure (in svg format) of the analysis plot.
 
 ## Next steps:
 1. Fix the legend problem in the dimensionality reduction plots.
-2. Merge both tensor_generator and analyzer.
+2. Merge both embedding_generator and analyzer.
 3. Implement Multidimensional Scaling (MDS) approach.
