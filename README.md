@@ -92,6 +92,4 @@ As a result, we will obtain a figure (in svg format) of the analysis plot.
 
 
 ## Next steps:
-1. Fix the legend problem in the dimensionality reduction plots.
-2. Merge both embedding_generator and analyzer.
-3. Implement Multidimensional Scaling (MDS) approach.
+1. Merge both embedding_generator and analyzer.
