@@ -63,11 +63,11 @@ python embedding_generators/embedding_generator_esm2 -i mutant_library.fasta -m 
         # - norm = True in case you want to normalize the embedding dimensions
 
 # Using HuggingFace modules
-python embedding_generators/tensor_generator_hugging_face -i mutant_library.fasta -m "facebook/esm2_t36_3B_UR50D" -o path/to/output
+python embedding_generators/embedding_generator_hugging_face -i mutant_library.fasta -m "facebook/esm2_t36_3B_UR50D" -o path/to/output
 
 ```
 
-The following step is the analysis of the results. This embeddings (normalized or not) can be processed and analyzed by using `anlysis` module. Finally, results are stored in `results` folder.
+The following step is the analysis of the results. These embeddings (normalized or not) can be processed and analyzed by using `analysis` module. Finally, the results are stored in `results` folder.
 
 > Notice that the "path/to/output" has to be the same path than the "path_to_tensor" in the json file!
 
@@ -78,8 +78,9 @@ In the repository folder:
 ```bash
 python scripts/analysis -c config/config_corr_1.json
 ```
-As a result, we obtain two dataframes: 
+As a result, we obtain three dataframes: 
 - df_correlation: where we will find the correlation analysis between the experimental data ("fitness" column) and the processed model data (according to the type of analysis - global or positional- and distance - euclidean or cosine.)
+- df_meanPos_corr: correlation analysis results by mean Position analysis. This means that the results show the mean distance of the variant embeddings at a given position to the wildtype embedding.
 - df_model_exp: where we merge both experimental and model data.
 
 ### Dimensionality reduction analysis
