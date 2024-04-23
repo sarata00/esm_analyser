@@ -39,9 +39,9 @@ class CorrelationAnalysis:
         # and create a row for each element of that list, duplicating the values of the first column (WT_AA)
         df_model = df_model.explode(1)
         # add a Position column with the index of the previous dataframe
-        df_model["Pos"] = df_model.index
+        df_model["Pos"] = df_model.index + 1
         # Rename the columns
-        df_model.rename(columns={0:"WT_AA", 1:"Mut"}, inplace=True)
+        df_model.rename(columns={0:"WT", 1:"Mut"}, inplace=True)
         
 
         # 2. Extract the values of the tensors for each position and mutation
@@ -69,9 +69,7 @@ class CorrelationAnalysis:
         --------------------------------------------
         """
         
-        df_result = pd.merge(df_model, df_exp, how="inner",
-                            left_on=["Pos","Mut"], right_on= ["Pos","Mut"], 
-                            suffixes=('_model', '_exp'))
+        df_result = pd.merge(df_model, df_exp, how="inner", on= ["Pos","Mut"], suffixes=('_model', '_exp'))
         
         return df_result
       
@@ -110,11 +108,13 @@ class CorrelationAnalysis:
         f_merged = f"{df_dir}/df_model_exp_{file_name}.csv"
         f_corr = f"{df_dir}/df_correlation_analysis_{file_name}.csv"
         f_mean = f"{df_dir}/df_meanPos_corr_analysis_{file_name}.csv"
+        f_model = f"{df_dir}/df_{file_name}.csv"
                           
         # 5. Transform the tensors into a dataframe  
         df_model = self.tensor_to_df_model(dictionary_of_tensors=results_dictionary, 
                                            mutated_sequence=mutated_seq, aa_list=amino_acids)
         
+        df_model.to_csv(f_model, index=False)
 
         # 6. Map experimental and model data and download the csv
         df_model_experimental_data = self.map_experimental_model_data(df_exp=exp_data, 
