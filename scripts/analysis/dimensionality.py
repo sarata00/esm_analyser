@@ -4,11 +4,9 @@ import sys
 import os
 from basic import amino_acids, mutant_dictionary
 import warnings
-import numpy as np
-from numba import njit, prange
 import scanpy as sc
 import matplotlib.pyplot as plt
-from sklearn.manifold import MDS
+
 
 
 def create_annData(mean_tensor, mutated_sequence):
