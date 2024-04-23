@@ -49,7 +49,7 @@ def read_fasta(file_path):
 
     return dict_sequences
 
-def extract_features(model, n_layers, batch_converter, device, data=dict, emb_normalized=True, model_name="", output_path="."):
+def extract_embeddings(model, n_layers, batch_converter, device, data=dict, emb_normalized=True, model_name="", output_path="."):
     
     all_last_hidden_states=[]
 
@@ -117,7 +117,7 @@ def main():
     data = read_fasta(args.input_path)
 
     # Run now the model
-    extract_features(model, n_layers, batch_converter, device, data, args.normalized, args.model_name, args.output_path)
+    extract_embeddings(model, n_layers, batch_converter, device, data, args.normalized, args.model_name, args.output_path)
 
 if __name__ == "__main__":
     main()
