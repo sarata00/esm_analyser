@@ -46,7 +46,7 @@ Finally, for the **Dimensionality reduction** analysis we have just one argument
 
 | Arguments | Description                                                           
 | ------------------- | -------------------------------------------------------------------------- | 
-| method      | Kind of dimensionality reduction approach: UMAP, PCA or MyMDS |
+| method      | Kind of dimensionality reduction approach: UMAP or PCA |
 
 Take into account that in the `data` folder there is no tensor file, due to storage limits. So, you will need to create it using `embedding_generators` functions. 
 

@@ -70,7 +70,11 @@ class DimensionalityReduction():
         f = f"{figures_dir}/{file_name}_umap.svg"
 
         warnings.filterwarnings("ignore", category=UserWarning)
-        sc.pl.umap(self.adata, color=color, edges=False, ax=ax, show=False)
+        sc.pl.umap(self.adata, color=color, edges=False, ax=ax, show=False, return_fig=True)
+        plt.gcf().set_size_inches(15, 10)
+        plt.tight_layout()
+
+
         fig.savefig(f, format="svg")
         plt.close(fig)
         
@@ -93,47 +97,9 @@ class DimensionalityReduction():
         f = f"{figures_dir}/{file_name}_pca.svg"
 
         warnings.filterwarnings("ignore", category=UserWarning)
-        sc.pl.pca(self.adata, color=color, edges=False, ax=ax, show=False)
+        sc.pl.pca(self.adata, color=color, edges=False, ax=ax, show=False, return_fig=True)
+        plt.gcf().set_size_inches(15, 10)
+        plt.tight_layout()
+
         fig.savefig(f, format="svg")
         plt.close(fig)
-
-
-class MyMDS():
-    def __init__(self, tensor, n_components=2):
-        self.tensor_data = tensor 
-        self.n_components = n_components
-
-    @njit
-    def magnitude(x):
-        return np.sqrt(np.sum(x**2))
-
-    @njit
-    def dot_product(x, y):
-        return np.sum(x * y)
-
-    @njit
-    def cosine_distance(x, y):
-        return 1.0 - (MyMDS.dot_product(x, y) / (MyMDS.magnitude(x) * MyMDS.magnitude(y)))
-
-    @njit(parallel=True)
-    def compute_all_cosine_distances(vectors):
-        n = vectors.shape[0]
-        result = np.empty((n, n))
-        for i in prange(n):
-            for j in prange(n):
-                result[i, j] = MyMDS.cosine_distance(vectors[i], vectors[j])
-        
-        return result
-    
-    def perform_MDS(self):
-        mds = MDS(random_state=42, 
-                  dissimilarity='precomputed', 
-                  n_jobs=6, n_components=self.n_components, metric=True)
-        
-        distance_tensor = MyMDS.compute_all_cosine_distances(self.tensor_data.numpy())
-        mds_tensor = mds.fit_transform(distance_tensor)
-
-        return mds_tensor
-    
-    def plot_MDS(mds_results, color,):
-        pass
