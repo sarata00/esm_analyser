@@ -8,7 +8,7 @@ import basic as bs
 
 from tensors import Tensor
 from correlation import CorrelationAnalysis
-from dimensionality import DimensionalityReduction, MyMDS, create_annData
+from dimensionality import DimensionalityReduction, create_annData
 
 def load_json(file_path):
     """ Load a config json file.  """
@@ -25,7 +25,9 @@ def run(tensor_path,
         analysis = None, 
         distance=None,
         method=None,
-        output_path=None):
+        output_path=None,
+        interface=bool,
+        interface_residue_list=list):
 
     """ Run the process analysis. """
 
@@ -66,7 +68,9 @@ def run(tensor_path,
                                                 distance_list=distance,
                                                 mutated_seq=mutated_sequence,
                                                 outpath=output_path,
-                                                file_name=model_name)
+                                                file_name=model_name,
+                                                interface=interface,
+                                                interface_residue_list=interface_residue_list)
     #################################
     #   B. Dimensionality reduction #
     #################################
@@ -123,6 +127,8 @@ def main():
             exp_data = process_config["inputs"]["experimental_data"]
             analysis = process_config["inputs"]["analysis"]
             distance = process_config["inputs"]["distance"]
+            interface = process_config["inputs"]["interface_analysis"]
+            interface_residues = process_config["inputs"]["list_interface_residues"]
 
             run(tensor_path=tensor_path, 
                 exp_data_path=exp_data, 
@@ -131,7 +137,9 @@ def main():
                 should_preprocess=should_preprocess, 
                 analysis=analysis, 
                 distance=distance,
-                output_path=output_path)
+                output_path=output_path,
+                interface=interface,
+                interface_residue_list=interface_residues)
 
         elif process_type == "Dimensionality_reduction":
             method = process_config["inputs"]["method"]

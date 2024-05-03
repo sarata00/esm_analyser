@@ -21,7 +21,8 @@ class CorrelationAnalysis:
         df_exp = pd.read_csv(exp_data_path)
         return df_exp
     
-    def tensor_to_df_model(self, dictionary_of_tensors, mutated_sequence, aa_list=amino_acids):
+    
+    def tensor_to_df_model(self, data, mutated_sequence, aa_list=amino_acids):
         """ Transform tensor data into a dataframe.
         --------------------------------------------
         Parameters:
@@ -40,12 +41,13 @@ class CorrelationAnalysis:
         df_model = df_model.explode(1)
         # add a Position column with the index of the previous dataframe
         df_model["Pos"] = df_model.index + 1
+
         # Rename the columns
         df_model.rename(columns={0:"WT", 1:"Mut"}, inplace=True)
-        
+
 
         # 2. Extract the values of the tensors for each position and mutation
-        for tensor_name, value in dictionary_of_tensors.items():
+        for tensor_name, value in data.items():
             valuelist=[]
             for i in range(len(mutated_sequence)):
                 for pos,aa in enumerate(aa_list):
@@ -74,9 +76,16 @@ class CorrelationAnalysis:
         return df_result
       
 
-    def perform_correlation_analysis(self, exp_data_path, tensor, 
-                                     analyses, distance_list, 
-                                     mutated_seq, outpath, file_name):
+    def perform_correlation_analysis(self, 
+                                     exp_data_path, 
+                                     tensor, 
+                                     analyses, 
+                                     distance_list, 
+                                     mutated_seq, 
+                                     outpath, 
+                                     file_name,
+                                     interface,
+                                     interface_residue_list):
         
         """ Perform the correlation analysis between the experimental and model data.
         """
@@ -85,7 +94,11 @@ class CorrelationAnalysis:
         exp_data = self.load_experimental_data(exp_data_path)
         
         # 2. Load our tensor data as a Distances class
-        dis = Distances(tensor, mutated_sequence=mutated_seq, aa_list=amino_acids)
+        dis = Distances(tensor, 
+                        mutated_sequence=mutated_seq, 
+                        aa_list=amino_acids, 
+                        interface=interface, 
+                        interface_residue_list=interface_residue_list)
 
         # 3. Perform global or positional analysis
         results_dictionary={}
@@ -110,9 +123,11 @@ class CorrelationAnalysis:
         f_mean = f"{df_dir}/df_meanPos_corr_analysis_{file_name}.csv"
         f_model = f"{df_dir}/df_{file_name}.csv"
                           
+
         # 5. Transform the tensors into a dataframe  
-        df_model = self.tensor_to_df_model(dictionary_of_tensors=results_dictionary, 
-                                           mutated_sequence=mutated_seq, aa_list=amino_acids)
+        df_model = self.tensor_to_df_model(data=results_dictionary, 
+                                           mutated_sequence=mutated_seq, 
+                                           aa_list=amino_acids)
         
         df_model.to_csv(f_model, index=False)
 

@@ -5,10 +5,15 @@ import torch
 
 class Distances:
 
-    def __init__(self, tensor, mutated_sequence, aa_list=amino_acids):
+    def __init__(self, tensor, mutated_sequence, aa_list=amino_acids, interface=bool, interface_residue_list=list):
         self.tensor = tensor
         self.wt_tensor = self.find_wt(mutated_sequence, aa_list)
         self.tensor_differences = self.calculate_diferences()
+        self.interface = interface
+        if self.interface:
+            self.interface_residue_list = interface_residue_list
+        else:
+            self.interface_residue_list = None
         
     def find_wt(self, mutated_sequence, aa_list=amino_acids):
         """ Find the tensor which contains the wildtype results. 
@@ -34,12 +39,27 @@ class Distances:
 
         return tensor_differences
 
+    def select_interface_residues(self):
+        tensor_interface_data = self.tensor_differences.index_select(dim=2, index=torch.tensor(self.interface_residue_list))
+
+        return tensor_interface_data
+        
 
     def get_euclidean_distance(self):
         """ Calculate the euclidean distance between the variant and the wildtype tensors.
         This will return a 2D matrix: [mutated_protein_residues, mutant_aa].
         """
-        euclidean_distance = torch.linalg.norm(self.tensor_differences, dim=(-2,-1))
+
+        if self.interface:
+            tensor = self.select_interface_residues()
+        else:
+            tensor = self.tensor_differences
+
+        print(f"Tensor shape before euclidean: {tensor.shape}")
+        
+        euclidean_distance = torch.linalg.norm(tensor, dim=(-2,-1))
+
+        print(f"Tensor shape after euclidean: {euclidean_distance.shape}")
 
         return euclidean_distance
 
@@ -70,7 +90,7 @@ class Distances:
 
         if distance=="euclidean":
             global_distance = self.get_euclidean_distance()
-
+            # torch.save(global_distance, "/home/stolosa/Documents/BSC_internship/Local/Proyecto_master/04_mutant_scanning/02_embeddings/results/interface/esm2_t48_15B_UR50D/interface_tensor.pth")
         elif distance=="cosine":
             global_distance = self.get_cosine_distance()
         
@@ -90,7 +110,7 @@ class Distances:
         if distance == "euclidean":
             for i in range((self.tensor_differences.shape[0])):
                 for j in range(self.tensor_differences.shape[1]):
-                    slice_norm = torch.norm(self.tensor_differences[i,j,i,:], dim=-1)
+                    slice_norm = torch.linalg.vector_norm(self.tensor_differences[i,j,i+1,:], dim=-1)
                     
                     positional_distance[i,j] = slice_norm
 
@@ -103,7 +123,7 @@ class Distances:
             for i in range((self.tensor_differences.shape[0])):
                 for j in range(self.tensor_differences.shape[1]):
                     # Calculate cosine similarity
-                    cosine_similarity = cos(self.tensor[i,j,i,:], self.wt_tensor[i,:])
+                    cosine_similarity = cos(self.tensor[i,j,i+1,:], self.wt_tensor[i,:])
                     # Calculate cosine distance
                     cosine_distance = 1 - cosine_similarity
                     
