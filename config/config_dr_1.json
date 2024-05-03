@@ -1,8 +1,8 @@
 {   
     "inputs": {   
-        "path_to_tensor":"./data/last_hidden_esm2_t36_3B_UR50D.pth",
+        "path_to_tensor":"esm_analyser/data/last_hidden_esm2_t36_3B_UR50D.pth",
         "mutated_sequence": "TYVQALFDFDPQEDGELGFRRGDFIHVMDNSDPNWWKGACHGQTGMFPRNYVTPVN",
-        "should_preprocess": true
+        "should_preprocess": false
     },    
     "process":{
         
@@ -13,5 +13,5 @@
         }
     },
 
-    "output_path":"./results"
+    "output_path":"esm_analyser/results"
 }
