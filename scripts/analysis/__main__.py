@@ -94,9 +94,6 @@ def run(tensor_path,
             dr.perform_PCA()
             dr.plot_PCA(outpath=output_path, file_name=model_name, color="WT")
 
-        if method == "MDS":
-            mds = MyMDS(mean_tensor, n_components=2)
-            mds.perform_MDS()
 
 
 ##################################################################################################################################     
@@ -128,7 +125,10 @@ def main():
             analysis = process_config["inputs"]["analysis"]
             distance = process_config["inputs"]["distance"]
             interface = process_config["inputs"]["interface_analysis"]
-            interface_residues = process_config["inputs"]["list_interface_residues"]
+            if interface:
+                interface_residues = process_config["inputs"]["list_interface_residues"]
+            else:
+                interface_residues = None
 
             run(tensor_path=tensor_path, 
                 exp_data_path=exp_data, 
