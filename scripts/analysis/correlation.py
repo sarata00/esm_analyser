@@ -21,7 +21,7 @@ class CorrelationAnalysis:
         df_exp = pd.read_csv(exp_data_path)
         if df_exp["Pos"][0] == 0:
             df_exp["Pos"] +=1
-            
+
         return df_exp
     
     
@@ -55,7 +55,8 @@ class CorrelationAnalysis:
             for i in range(len(mutated_sequence)):
                 for pos,aa in enumerate(aa_list):
 
-                    diff_extraction= corr.extract_diff(tensor=value, aa_dictionary=index_aa_dictionary(aa_list),
+                    diff_extraction= corr.extract_diff(tensor=value, 
+                                                       aa_dictionary=index_aa_dictionary(aa_list),
                                                        token=i, mutation=aa,
                                                        is_float=True)
                     valuelist.append(diff_extraction)
