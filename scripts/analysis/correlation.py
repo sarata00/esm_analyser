@@ -19,6 +19,9 @@ class CorrelationAnalysis:
         """
 
         df_exp = pd.read_csv(exp_data_path)
+        if df_exp["Pos"][0] == 0:
+            df_exp["Pos"] +=1
+            
         return df_exp
     
     
