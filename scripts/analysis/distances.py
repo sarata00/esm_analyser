@@ -7,7 +7,8 @@ class Distances:
 
     def __init__(self, tensor, mutated_sequence, aa_list=amino_acids, interface=bool, interface_residue_list=list):
         self.tensor = tensor
-        self.wt_tensor = self.find_wt(mutated_sequence, aa_list)
+        self.mutated_sequence = mutated_sequence
+        self.wt_tensor = self.find_wt(aa_list)
         self.tensor_differences = self.calculate_diferences()
         self.interface = interface
         if self.interface:
@@ -15,7 +16,7 @@ class Distances:
         else:
             self.interface_residue_list = None
         
-    def find_wt(self, mutated_sequence, aa_list=amino_acids):
+    def find_wt(self, aa_list=amino_acids):
         """ Find the tensor which contains the wildtype results. 
         The wildtype tensor is the one that contains the wildtype sequence
         this means that where the residues of the sequence match the residue
@@ -27,7 +28,7 @@ class Distances:
         -----------------------------------
         """
 
-        first_residue = mutated_sequence[0]
+        first_residue = self.mutated_sequence[0]
         wt_index = aa_list.index(first_residue)
         wt_tensor = self.tensor[0,wt_index,:,:]
 
@@ -38,6 +39,16 @@ class Distances:
         tensor_differences = self.tensor - self.wt_tensor
 
         return tensor_differences
+    
+    def remove_special_tokens(self):
+        second_token = len(self.mutated_sequence)
+        third_token = self.tensor.shape[1] - 1
+        indices_global = torch.cat((torch.arange(1, second_token), torch.arange(second_token+1, third_token)))
+
+        tensor = self.tensor_differences.index_select(dim=2, index=indices_global)
+
+        return tensor
+
 
     def select_interface_residues(self):
         tensor_interface_data = self.tensor_differences.index_select(dim=2, index=torch.tensor(self.interface_residue_list))
@@ -53,7 +64,7 @@ class Distances:
         if self.interface:
             tensor = self.select_interface_residues()
         else:
-            tensor = self.tensor_differences
+            tensor = self.remove_special_tokens()
 
         print(f"Tensor shape before euclidean: {tensor.shape}")
         
@@ -90,7 +101,7 @@ class Distances:
 
         if distance=="euclidean":
             global_distance = self.get_euclidean_distance()
-            # torch.save(global_distance, "/home/stolosa/Documents/BSC_internship/Local/Proyecto_master/04_mutant_scanning/02_embeddings/results/interface/esm2_t48_15B_UR50D/interface_tensor.pth")
+
         elif distance=="cosine":
             global_distance = self.get_cosine_distance()
         
