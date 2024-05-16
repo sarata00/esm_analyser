@@ -94,3 +94,4 @@ As a result, we will obtain a figure (in svg format) of the analysis plot.
 
 ## Next steps:
 1. Merge both embedding_generator and analyzer.
+2. Add logits analysis
