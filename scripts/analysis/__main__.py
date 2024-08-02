@@ -63,7 +63,7 @@ def run(tensor_path,
 
         # Run correlation analysis
         correlation.perform_correlation_analysis(exp_data_path=exp_data_path,
-                                                tensor=reshaped_tensor.file,
+                                                tensor=reshaped_tensor.tensor_file,
                                                 analyses=analysis,
                                                 distance_list=distance,
                                                 mutated_seq=mutated_sequence,
@@ -79,7 +79,7 @@ def run(tensor_path,
         print("> Starting Dimensionality reduction analysis... ")
 
         # 1. Reshape the tensor to transform it into 2D tensor
-        mean_tensor = tensor_object.file.mean(dim=-2)
+        mean_tensor = tensor_object.tensor_file.mean(dim=-2)
 
         if method == "UMAP":
             # We need to transform our tensor data into an Annotation Matrix:
