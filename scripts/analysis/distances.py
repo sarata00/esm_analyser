@@ -42,7 +42,7 @@ class Distances:
     
     def remove_special_tokens(self):
         second_token = len(self.mutated_sequence)
-        third_token = self.tensor.shape[1] - 1
+        third_token = self.tensor.shape[2] - 1
         indices_global = torch.cat((torch.arange(1, second_token), torch.arange(second_token+1, third_token)))
 
         tensor = self.tensor_differences.index_select(dim=2, index=indices_global)
