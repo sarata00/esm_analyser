@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from basic import amino_acids
+from scripts.analysis.basic import amino_acids
 import torch
 
 class Distances:

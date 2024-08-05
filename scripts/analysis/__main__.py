@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
 # Author: Sara Tolosa Alarcón
 
-
 import argparse
 import json
-import basic as bs
+import scripts.analysis.basic as bs
 
-from tensors import Tensor
-from correlation import CorrelationAnalysis
-from dimensionality import DimensionalityReduction, create_annData
+from scripts.analysis.tensors import Tensor
+from scripts.analysis.correlation import CorrelationAnalysis
+from scripts.analysis.dimensionality import DimensionalityReduction, create_annData
 
 def load_json(file_path):
     """ Load a config json file.  """

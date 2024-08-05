@@ -5,8 +5,9 @@ import pandas as pd
 import os
 from scipy import stats                 
 from itertools import combinations
-from basic import amino_acids, mutant_dictionary, index_aa_dictionary
-from distances import Distances
+
+from scripts.analysis.basic import amino_acids, mutant_dictionary, index_aa_dictionary
+from scripts.analysis.distances import Distances
 
 
 class CorrelationAnalysis:
@@ -171,7 +172,7 @@ class CorrelationAnalysis:
         
         # 2. Load our tensor data as a Distances class
         dis = Distances(tensor, 
-                        mutated_ssequence=mutated_seq, 
+                        mutated_sequence=mutated_seq, 
                         aa_list=amino_acids, 
                         interface=interface, 
                         interface_residue_list=interface_residue_list)

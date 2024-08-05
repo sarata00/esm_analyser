@@ -2,7 +2,7 @@
 
 import sys
 import os
-from basic import amino_acids, mutant_dictionary
+from scripts.analysis.basic import amino_acids, mutant_dictionary
 import warnings
 import scanpy as sc
 import matplotlib.pyplot as plt
