@@ -18,16 +18,16 @@ def load_json(file_path):
     return config
 
 def run(tensor_path,
-        exp_data_path=None, 
-        mutated_sequence=None, 
-        process=None, 
+        exp_data_path = None, 
+        mutated_sequence = None, 
+        process = None, 
         should_preprocess = True, 
         analysis = None, 
-        distance=None,
-        method=None,
-        output_path=None,
-        interface=bool,
-        interface_residue_list=list):
+        distance = None,
+        method = None,
+        output_path = None,
+        interface = bool,
+        interface_residue_list = list):
 
     """ Run the process analysis. """
 
@@ -62,7 +62,7 @@ def run(tensor_path,
         reshaped_tensor = tensor_object.tensor_reshaping(aa_list=bs.amino_acids, mutated_sequence=mutated_sequence)
 
         # Run correlation analysis
-        correlation.perform_correlation_analysis(exp_data_path=exp_data_path,
+        correlation.run_correlation_analysis(exp_data_path=exp_data_path,
                                                 tensor=reshaped_tensor.tensor_file,
                                                 analyses=analysis,
                                                 distance_list=distance,
