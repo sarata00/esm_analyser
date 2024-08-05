@@ -2,7 +2,7 @@
 
 import torch
 from pathlib import Path
-from basic import amino_acids
+from scripts.analysis.basic import amino_acids
 
 class Tensor:
     def __init__(self, tensor_path):
@@ -12,7 +12,7 @@ class Tensor:
         
     def load_tensor(self):
         try:
-            tensor = torch.load(self.tensor_path)
+            tensor = torch.load(self.tensor_path, weights_only=True)
             if not isinstance(tensor, torch.Tensor):
                 raise TypeError("Loaded object is not a tensor")
             
