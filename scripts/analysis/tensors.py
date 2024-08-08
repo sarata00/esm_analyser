@@ -50,9 +50,9 @@ class Tensor:
         mut_seq = len(mutated_sequence)
         emb_dim = self.tensor_file.shape[-1]
         reshaped_tensor = self.tensor_file.reshape(mut_seq, n_aa, seq_length, emb_dim)
-        self.tensor_file = reshaped_tensor
+        
 
-        return self
+        return reshaped_tensor
 
     def preprocessing(self):
         """Preprocess the tensor by removing batch size and normalizing it."""
