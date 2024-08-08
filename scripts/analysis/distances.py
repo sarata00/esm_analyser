@@ -5,13 +5,13 @@ import torch
 
 class Distances:
 
-    def __init__(self, tensor, mutated_sequence, aa_list=amino_acids, interface=bool, interface_residue_list=list):
+    def __init__(self, tensor, mutated_sequence, aa_list=amino_acids, option=str, interface_residue_list=list):
         self.tensor = tensor
         self.mutated_sequence = mutated_sequence
         self.wt_tensor = self.find_wt(aa_list)
         self.tensor_differences = self.calculate_diferences()
-        self.interface = interface
-        if self.interface:
+        self.option = option
+        if self.option == "interface":
             self.interface_residue_list = interface_residue_list
         else:
             self.interface_residue_list = None
@@ -49,19 +49,25 @@ class Distances:
 
         return tensor
 
+    def select_receptor_residues(self):
+        indices_receptor = torch.arange(1, len(self.mutated_sequence)+1)
+        receptor_tensor = self.tensor_differences.index_select(dim=2, index=indices_receptor)
+
+        return receptor_tensor
 
     def select_interface_residues(self):
         tensor_interface_data = self.tensor_differences.index_select(dim=2, index=torch.tensor(self.interface_residue_list))
 
         return tensor_interface_data
-        
 
     def get_euclidean_distance(self):
         """ Calculate the euclidean distance between the variant and the wildtype tensors.
         This will return a 2D matrix: [mutated_protein_residues, mutant_aa].
         """
+        if self.option == "receptor":
+            tensor = self.select_receptor_residues()
 
-        if self.interface:
+        elif self.option == "interface":
             tensor = self.select_interface_residues()
         else:
             tensor = self.remove_special_tokens()

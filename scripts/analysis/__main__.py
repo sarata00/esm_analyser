@@ -25,7 +25,7 @@ def run(tensor_path,
         distance = None,
         method = None,
         output_path = None,
-        interface = bool,
+        option = str,
         interface_residue_list = list):
 
     """ Run the process analysis. """
@@ -68,7 +68,7 @@ def run(tensor_path,
                                                 mutated_seq=mutated_sequence,
                                                 outpath=output_path,
                                                 file_name=model_name,
-                                                interface=interface,
+                                                option=option,
                                                 interface_residue_list=interface_residue_list)
     #################################
     #   B. Dimensionality reduction #
@@ -123,8 +123,8 @@ def main():
             exp_data = process_config["inputs"]["experimental_data"]
             analysis = process_config["inputs"]["analysis"]
             distance = process_config["inputs"]["distance"]
-            interface = process_config["inputs"]["interface_analysis"]
-            if interface:
+            option = process_config["inputs"]["option_analysis"]
+            if option == "interface":
                 interface_residues = process_config["inputs"]["list_interface_residues"]
             else:
                 interface_residues = None
@@ -137,7 +137,7 @@ def main():
                 analysis=analysis, 
                 distance=distance,
                 output_path=output_path,
-                interface=interface,
+                option=option,
                 interface_residue_list=interface_residues)
 
         elif process_type == "Dimensionality_reduction":
@@ -150,7 +150,7 @@ def main():
                 should_preprocess=should_preprocess,
                 output_path=output_path)
    
-
+    print("""\nWork completed!\n""")
+    
 if __name__ == "__main__":
     main()
-    print("""\nWork completed!\n""")

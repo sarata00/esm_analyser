@@ -162,7 +162,7 @@ class CorrelationAnalysis:
                                      mutated_seq, 
                                      outpath, 
                                      file_name,
-                                     interface,
+                                     option,
                                      interface_residue_list):
         """ Perform the correlation analysis between the experimental and model data.
         """
@@ -174,7 +174,7 @@ class CorrelationAnalysis:
         dis = Distances(tensor, 
                         mutated_sequence=mutated_seq, 
                         aa_list=amino_acids, 
-                        interface=interface, 
+                        option=option, 
                         interface_residue_list=interface_residue_list)
 
         # 3. Perform global or positional analysis
