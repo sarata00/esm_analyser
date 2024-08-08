@@ -62,7 +62,7 @@ def run(tensor_path,
 
         # Run correlation analysis
         correlation.run_correlation_analysis(exp_data_path=exp_data_path,
-                                                tensor=reshaped_tensor.tensor_file,
+                                                tensor=reshaped_tensor,
                                                 analyses=analysis,
                                                 distance_list=distance,
                                                 mutated_seq=mutated_sequence,
