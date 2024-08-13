@@ -50,7 +50,6 @@ class Tensor:
         mut_seq = len(mutated_sequence)
         emb_dim = self.tensor_file.shape[-1]
         reshaped_tensor = self.tensor_file.reshape(mut_seq, n_aa, seq_length, emb_dim)
-        
 
         return reshaped_tensor
 

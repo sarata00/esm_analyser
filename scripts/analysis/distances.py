@@ -66,7 +66,6 @@ class Distances:
         """
         if self.option == "receptor":
             tensor = self.select_receptor_residues()
-
         elif self.option == "interface":
             tensor = self.select_interface_residues()
         else:
