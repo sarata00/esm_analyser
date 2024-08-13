@@ -15,14 +15,19 @@ This pipeline implemented in Python allows you to perform two different analyses
 git clone https://github.com/sarata00/esm_analyzer.git
 ```       
 
-1.2. Create a conda environment and install all the dependencies
+1.2. Create a virtual environment and install all the dependencies
+
+```bash
+pip install -e ./esm_analyzer
+pip install -r ./esm_analyzer/requirements.txt
+``` 
 
 ## 2. How to use it?
+After the installation, you can run the analysis by using the command line interface (`embedding_analyzer`):
 
-| Arguments           | Description                                                                | Type    |
-| ------------------- | -------------------------------------------------------------------------- | ------- |
-| \-c, \-\-config_file      | Configuration file. Default: None | string  |
-| \-v, \-\-verbose    | Shows messages to follow the process execution. Default: True              | boolean |
+```bash
+embedding_analyzer -c config_file.json
+``` 
 
 ### 2.1. What is inside *config* file?
 This file contains all the variables used in our analyses. There are common arguments in both type of analysis:
@@ -38,7 +43,7 @@ Then, for **Correlation analysis** we have some specific arguments:
 
 | Arguments | Description                                                           
 | ------------------- | -------------------------------------------------------------------------- | 
-| experimental_data      | Path to the experimental dataframe to which we want to compare our model data with
+| experimental_data      | Path to the experimental dataframe with which we want to compare our model data. **Type: DataFrame**
 | analysis   | Type of analysis: global and/or positional. It could be both. **Type: list**          |
 distance | Type of distance used to calculate the differences between variants and wildtype sequence (euclidean and/or cosine). It could be both. **Type: list** |
 
@@ -59,11 +64,11 @@ The first step is to generate the embedding tensors. For that, you can use both 
 
 ```bash 
 # Using ESM-2 modules
-python embedding_generators/embedding_generator_esm2 -i mutant_library.fasta -m "esm2_t36_3B_UR50D" -o path/to/output -norm True
-        # - norm = True in case you want to normalize the embedding dimensions
+embedding_generator_esm -i mutant_library.fasta -m "esm2_t36_3B_UR50D" -o path/to/output -norm
+        # - norm in case you want to normalize the embedding dimensions
 
 # Using HuggingFace modules
-python embedding_generators/embedding_generator_hugging_face -i mutant_library.fasta -m "facebook/esm2_t36_3B_UR50D" -o path/to/output
+embedding_generator_HF -i mutant_library.fasta -m "facebook/esm2_t36_3B_UR50D" -o path/to/output
 
 ```
 
@@ -76,7 +81,7 @@ The following step is the analysis of the results. These embeddings (normalized 
 ### Correlation analysis
 In the repository folder:
 ```bash
-python scripts/analysis -c config/config_corr_1.json
+embedding_analyzer -c ./config/config_corr_1.json
 ```
 As a result, we obtain three dataframes: 
 - df_correlation: where we will find the correlation analysis between the experimental data ("fitness" column) and the processed model data (according to the type of analysis - global or positional- and distance - euclidean or cosine.)
@@ -87,7 +92,7 @@ As a result, we obtain three dataframes:
 In the repository folder:
 
 ```bash
-python scripts/analysis -c config/config_dr_1.json
+embedding_analyzer -c ./config/config_dr_1.json
 ```
 As a result, we will obtain a figure (in svg format) of the analysis plot. 
 
