@@ -41,9 +41,9 @@ class Distances:
         return tensor_differences
     
     def remove_special_tokens(self):
-        second_token = len(self.mutated_sequence)
-        third_token = self.tensor.shape[2] - 1
-        indices_global = torch.cat((torch.arange(1, second_token), torch.arange(second_token+1, third_token)))
+        separation_token = len(self.mutated_sequence) + 1
+        final_token = self.tensor.shape[2] - 1
+        indices_global = torch.cat((torch.arange(1, separation_token), torch.arange(separation_token+1, final_token)))
 
         tensor = self.tensor_differences.index_select(dim=2, index=indices_global)
 
