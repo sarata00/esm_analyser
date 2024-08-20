@@ -191,10 +191,11 @@ class CorrelationAnalysis:
         
         # 4. Define the directory path to store all the results
         # and the file names
-        df_dir = os.path.join(outpath, "results_corr")
+        n_layer = file_name.split("_")[-3]
+        df_dir = os.path.join(outpath, f"results_corr_{n_layer}")
         if not os.path.isdir(df_dir):
             os.makedirs(df_dir)
-        
+
         f_model = f"{df_dir}/df_{file_name}.csv"
         f_merged = f"{df_dir}/df_model_exp_{file_name}.csv"
         f_corr = f"{df_dir}/df_correlation_analysis_{file_name}.csv"
